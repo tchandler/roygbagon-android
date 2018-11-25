@@ -9,25 +9,13 @@ import android.widget.Button
 import java.util.*
 import java.lang.Math
 
-fun Int.clamp(min: Int, max: Int): Int = Math.max(min, Math.min(this, max))
+
 
 class MainActivity : AppCompatActivity() {
 
-    private val stepCount: Int = 8
-    private val offset: Int = 0x100 / 8
-    private val whiteOffset: Int = (offset shl 16) or (offset shl 8) or offset
-
-    private var currentColor: Int = 0x000000
-        set(value) { field = value.clamp(0, 0xFFFFFF) }
-
-    private var currentStep: Int = 0
-        set(value) { field = value.clamp(0, stepCount)  }
-
-    private var targetStep: Int = 0
-        set(value) { field = value.clamp(0, stepCount)  }
-
-    private var targetColor: Int = 0xFFFFFF
-        set(value) { field = value.clamp(0, 0xFFFFFF) }
+    private val step: Int = 8
+    private val currentColor: ColorStepper = ColorStepper(step)
+    private val targetColor: ColorStepper = ColorStepper(step)
 
     private var currentColorView: View? = null
     private var targetColorView: View? = null
@@ -39,35 +27,45 @@ class MainActivity : AppCompatActivity() {
         targetColorView = findViewById(R.id.targetColorView)
         val whiteButton: Button = findViewById(R.id.white)
         val blackButton: Button = findViewById(R.id.black)
+        val redButton: Button = findViewById(R.id.red)
+        val tealButton: Button = findViewById(R.id.teal)
+
 
         whiteButton.setOnClickListener {
-            adjustColor(1)
+            adjustColor(1, 1, 1)
         }
 
         blackButton.setOnClickListener {
-            adjustColor(-1)
+            adjustColor(-1, -1, -1)
+        }
+
+        redButton.setOnClickListener {
+            adjustColor(1, 0, 0)
+        }
+
+        tealButton.setOnClickListener {
+            adjustColor(-1, 0, 0)
         }
 
     }
 
-    private fun adjustColor(adjustmentAmount: Int) {
-        currentStep += adjustmentAmount
-        currentColor = getColorFromOffset(currentStep)
-        currentColorView?.setBackgroundColor((makeColorFromInt(currentColor)))
+    private fun adjustColor(redAdjust: Int, greenAdjust: Int, blueAdjust: Int) {
+        val newColor = currentColor.adjustColorOffset(redAdjust, greenAdjust, blueAdjust)
+        currentColorView?.setBackgroundColor((makeColorFromInt(newColor)))
 
-        Log.d("Target", "${targetColor.toString(16)}")
-        Log.d("Current", "${currentColor.toString(16)}")
-        if (currentColor == targetColor) {
-            val nextStep = Random().nextInt(stepCount) + 1
-            val greyScale = nextStep * offset
-
-            targetStep = nextStep
-            targetColor = (greyScale shl 16) or (greyScale shl 8) or greyScale
-            targetColorView?.setBackgroundColor(makeColorFromInt(targetColor))
+        Log.d("Target", "${targetColor.currentColor.toString(16)}")
+        Log.d("Current", "${currentColor.currentColor.toString(16)}")
+        if (currentColor.currentColor == targetColor.currentColor) {
+            val nextWhiteStep = Random().nextInt(step)
+            val nextRedStep = Random().nextInt(step)
+            targetColor.resetColor()
+            val newTarget = targetColor.adjustColorOffset(nextRedStep, nextWhiteStep, nextWhiteStep)
+            Log.d("New Color:", nextWhiteStep.toString())
+            targetColorView?.setBackgroundColor(makeColorFromInt(newTarget))
+        } else {
+            Log.d("Off By:", (currentColor.currentColor - targetColor.currentColor).toString())
         }
     }
 
     private fun makeColorFromInt(color: Int): Int = Color.parseColor("#${color.toString(16).padStart(6, '0')}")
-
-    private fun getColorFromOffset(offset: Int): Int = whiteOffset * offset
 }
