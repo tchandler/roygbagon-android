@@ -5,7 +5,7 @@ import java.util.*
 fun Int.clamp(min: Int, max: Int): Int = Math.max(min, Math.min(this, max))
 
 
-class ColorStepper(private val numSteps: Int) {
+class SteppedColor(private val numSteps: Int) {
     private val stepAmount: Int = 0x100 / numSteps
     var currentColor: Int = 0
         private set(value) { field = value.clamp(0, 0xFFFFFF) }
@@ -50,7 +50,7 @@ class ColorStepper(private val numSteps: Int) {
 
     override fun equals(other: Any?): Boolean {
         return when (other) {
-            is ColorStepper -> other.currentColor == currentColor
+            is SteppedColor -> other.currentColor == currentColor
             else -> return false
         }
     }

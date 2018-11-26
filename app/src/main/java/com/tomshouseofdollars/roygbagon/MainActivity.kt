@@ -7,15 +7,12 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import java.util.*
-import java.lang.Math
-
 
 
 class MainActivity : AppCompatActivity() {
-
     private val step: Int = 8
-    private val currentColor: ColorStepper = ColorStepper(step)
-    private val targetColor: ColorStepper = ColorStepper(step)
+    private val currentColor: SteppedColor = SteppedColor(step)
+    private val targetColor: SteppedColor = SteppedColor(step)
 
     private var currentColorView: View? = null
     private var targetColorView: View? = null
@@ -40,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         registerColorChange(redButton, ColorSteps.AdjustRed(1))
         registerColorChange(cyanButton, ColorSteps.AdjustCyan(1))
         registerColorChange(greenButton, ColorSteps.AdjustGreen(1))
-        registerColorChange(magentaButton, ColorSteps.AdjustMagnta(1))
+        registerColorChange(magentaButton, ColorSteps.AdjustMagenta(1))
         registerColorChange(blueButton, ColorSteps.AdjustBlue(1))
         registerColorChange(yellowButton, ColorSteps.AdjustYellow(1))
     }
