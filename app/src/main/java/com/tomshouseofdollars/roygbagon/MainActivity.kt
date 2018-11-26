@@ -32,36 +32,36 @@ class MainActivity : AppCompatActivity() {
 
 
         whiteButton.setOnClickListener {
-            adjustColor(1, 1, 1)
+            adjustColor(ColorSteps.AdjustWhite(1))
         }
 
         blackButton.setOnClickListener {
-            adjustColor(-1, -1, -1)
+            adjustColor(ColorSteps.AdjustWhite(-1))
         }
 
         redButton.setOnClickListener {
-            adjustColor(1, 0, 0)
+            adjustColor(ColorSteps.AdjustRed(1))
         }
 
         tealButton.setOnClickListener {
-            adjustColor(-1, 0, 0)
+            adjustColor(ColorSteps.AdjustRed(-1))
         }
 
     }
 
-    private fun adjustColor(redAdjust: Int, greenAdjust: Int, blueAdjust: Int) {
-        val newColor = currentColor.adjustColorOffset(redAdjust, greenAdjust, blueAdjust)
-        currentColorView?.setBackgroundColor((makeColorFromInt(newColor)))
+    private fun adjustColor(colorStep: ColorSteps) {
+        currentColor.adjustColor(colorStep)
+        currentColorView?.setBackgroundColor((makeColorFromInt(currentColor.currentColor)))
 
         Log.d("Target", "${targetColor.currentColor.toString(16)}")
         Log.d("Current", "${currentColor.currentColor.toString(16)}")
-        if (currentColor.currentColor == targetColor.currentColor) {
+
+        if (currentColor == targetColor) {
             val nextWhiteStep = Random().nextInt(step)
             val nextRedStep = Random().nextInt(step)
-            targetColor.resetColor()
-            val newTarget = targetColor.adjustColorOffset(nextRedStep, nextWhiteStep, nextWhiteStep)
+            targetColor.resetColorTo(nextRedStep, nextWhiteStep, nextWhiteStep)
             Log.d("New Color:", nextWhiteStep.toString())
-            targetColorView?.setBackgroundColor(makeColorFromInt(newTarget))
+            targetColorView?.setBackgroundColor(makeColorFromInt(targetColor.currentColor))
         } else {
             Log.d("Off By:", (currentColor.currentColor - targetColor.currentColor).toString())
         }
