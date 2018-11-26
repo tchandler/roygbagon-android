@@ -4,23 +4,9 @@ import java.util.*
 
 fun Int.clamp(min: Int, max: Int): Int = Math.max(min, Math.min(this, max))
 
-
-class SteppedColor(private val numSteps: Int) {
+class SteppedColor(private val numSteps: Int, var color: Int = 0) {
+    private var currentSteps: Array<Int> = arrayOf(0, 0, 0)
     private val stepAmount: Int = 0x100 / numSteps
-    var currentColor: Int = 0
-        private set(value) { field = value.clamp(0, 0xFFFFFF) }
-
-    var currentSteps: Array<Int> = arrayOf(0, 0, 0)
-
-    private fun adjustColorOffset(red: Int, green: Int, blue: Int) {
-        currentSteps[0] = (currentSteps[0] + red).clamp(0, numSteps)
-        currentSteps[1] = (currentSteps[1] + green).clamp(0, numSteps)
-        currentSteps[2] = (currentSteps[2] + blue).clamp(0, numSteps)
-        val newRed = (currentSteps[0] * stepAmount).clamp(0, 0xFF)
-        val newGreen = (currentSteps[1] * stepAmount).clamp(0, 0xFF)
-        val newBlue = (currentSteps[2] * stepAmount).clamp(0, 0xFF)
-        currentColor = (newRed shl 16) or (newGreen shl 8) or newBlue
-    }
 
     fun adjustColor(steps: ColorSteps) {
         when (steps) {
@@ -34,24 +20,29 @@ class SteppedColor(private val numSteps: Int) {
         }
     }
 
-    fun resetColorTo(red: Int, green: Int, blue: Int) {
-        currentColor = 0
-        currentSteps = arrayOf(0, 0, 0)
-        adjustColorOffset(red, green, blue)
-    }
-
     fun scrambleColor() {
-        resetColorTo(
+        currentSteps = arrayOf(0, 0, 0)
+        adjustColorOffset(
             Random().nextInt(numSteps),
             Random().nextInt(numSteps),
             Random().nextInt(numSteps)
         )
     }
 
+    private fun adjustColorOffset(red: Int, green: Int, blue: Int) {
+        currentSteps[0] = (currentSteps[0] + red).clamp(0, numSteps)
+        currentSteps[1] = (currentSteps[1] + green).clamp(0, numSteps)
+        currentSteps[2] = (currentSteps[2] + blue).clamp(0, numSteps)
+        val newRed = (currentSteps[0] * stepAmount).clamp(0, 0xFF)
+        val newGreen = (currentSteps[1] * stepAmount).clamp(0, 0xFF)
+        val newBlue = (currentSteps[2] * stepAmount).clamp(0, 0xFF)
+        color = (newRed shl 16) or (newGreen shl 8) or newBlue
+    }
+
     override fun equals(other: Any?): Boolean {
         return when (other) {
-            is SteppedColor -> other.currentColor == currentColor
-            else -> return false
+            is SteppedColor -> other.color == color
+            else -> return super.equals(other)
         }
     }
 }
