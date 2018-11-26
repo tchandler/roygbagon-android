@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
     private val currentColor: SteppedColor = SteppedColor(step)
     private val targetColor: SteppedColor = SteppedColor(step, 0xFFFFFF)
 
-    private var currentColorView: View? = null
-    private var targetColorView: View? = null
+    private lateinit var currentColorView: View
+    private lateinit var targetColorView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +63,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateColorViews() {
-        currentColorView?.setBackgroundColor(makeColorFromInt(currentColor.color))
-        targetColorView?.setBackgroundColor(makeColorFromInt(targetColor.color))
+        currentColorView.setBackgroundColor(makeColorFromInt(currentColor.color))
+        targetColorView.setBackgroundColor(makeColorFromInt(targetColor.color))
     }
 
     private fun makeColorFromInt(color: Int): Int = Color.parseColor("#${color.toString(16).padStart(6, '0')}")
