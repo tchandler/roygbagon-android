@@ -28,25 +28,27 @@ class MainActivity : AppCompatActivity() {
         val whiteButton: Button = findViewById(R.id.white)
         val blackButton: Button = findViewById(R.id.black)
         val redButton: Button = findViewById(R.id.red)
-        val tealButton: Button = findViewById(R.id.teal)
+        val cyanButton: Button = findViewById(R.id.cyan)
+        val greenButton: Button = findViewById(R.id.green)
+        val magentaButton: Button = findViewById(R.id.magenta)
+        val blueButton: Button = findViewById(R.id.blue)
+        val yellowButton: Button = findViewById(R.id.yellow)
 
 
-        whiteButton.setOnClickListener {
-            adjustColor(ColorSteps.AdjustWhite(1))
+        registerColorChange(whiteButton, ColorSteps.AdjustWhite(1))
+        registerColorChange(blackButton, ColorSteps.AdjustWhite(-1))
+        registerColorChange(redButton, ColorSteps.AdjustRed(1))
+        registerColorChange(cyanButton, ColorSteps.AdjustCyan(1))
+        registerColorChange(greenButton, ColorSteps.AdjustGreen(1))
+        registerColorChange(magentaButton, ColorSteps.AdjustMagnta(1))
+        registerColorChange(blueButton, ColorSteps.AdjustBlue(1))
+        registerColorChange(yellowButton, ColorSteps.AdjustYellow(1))
+    }
+
+    private fun registerColorChange(colorButton: Button, colorStep: ColorSteps) {
+        colorButton.setOnClickListener {
+            adjustColor(colorStep)
         }
-
-        blackButton.setOnClickListener {
-            adjustColor(ColorSteps.AdjustWhite(-1))
-        }
-
-        redButton.setOnClickListener {
-            adjustColor(ColorSteps.AdjustRed(1))
-        }
-
-        tealButton.setOnClickListener {
-            adjustColor(ColorSteps.AdjustRed(-1))
-        }
-
     }
 
     private fun adjustColor(colorStep: ColorSteps) {

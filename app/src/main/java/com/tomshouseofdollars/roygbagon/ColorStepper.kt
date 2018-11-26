@@ -1,5 +1,7 @@
 package com.tomshouseofdollars.roygbagon
 
+import java.util.*
+
 fun Int.clamp(min: Int, max: Int): Int = Math.max(min, Math.min(this, max))
 
 
@@ -22,10 +24,13 @@ class ColorStepper(private val numSteps: Int) {
 
     fun adjustColor(steps: ColorSteps) {
         when (steps) {
-            is ColorSteps.AdjustRed -> this.adjustColorOffset(steps.step, 0, 0)
             is ColorSteps.AdjustWhite -> this.adjustColorOffset(steps.step, steps.step, steps.step)
-            is ColorSteps.AdjustGreen -> this.adjustColorOffset(0, steps.step, 0)
-            is ColorSteps.AdjustBlue -> this.adjustColorOffset(0, 0, steps.step)
+            is ColorSteps.AdjustRed -> this.adjustColorOffset(steps.step, -steps.step, -steps.step)
+            is ColorSteps.AdjustCyan -> this.adjustColorOffset(-steps.step, steps.step, steps.step)
+            is ColorSteps.AdjustGreen -> this.adjustColorOffset(-steps.step, steps.step, -steps.step)
+            is ColorSteps.AdjustMagenta -> this.adjustColorOffset(steps.step, -steps.step, steps.step)
+            is ColorSteps.AdjustBlue -> this.adjustColorOffset(-steps.step, -steps.step, steps.step)
+            is ColorSteps.AdjustYellow -> this.adjustColorOffset(steps.step, steps.step, -steps.step)
         }
     }
 
@@ -33,6 +38,14 @@ class ColorStepper(private val numSteps: Int) {
         currentColor = 0
         currentSteps = arrayOf(0, 0, 0)
         adjustColorOffset(red, green, blue)
+    }
+
+    fun scrambleColor() {
+        resetColorTo(
+            Random().nextInt(numSteps),
+            Random().nextInt(numSteps),
+            Random().nextInt(numSteps)
+        )
     }
 
     override fun equals(other: Any?): Boolean {

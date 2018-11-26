@@ -10,7 +10,7 @@
     <View
             android:layout_width="wrap_content"
             android:layout_height="276dp" android:id="@+id/targetColorView" android:background="@color/white"
-            android:layout_marginBottom="8dp" />
+            tools:layout_editor_absoluteY="0dp"/>
     <View
             android:layout_width="192dp"
             android:layout_height="113dp"
@@ -23,7 +23,7 @@
             android:layout_height="292dp"
             android:layout_centerHorizontal="true"
             android:alignmentMode="alignBounds"
-            android:columnCount="4"
+            android:columnCount="3"
             app:layout_constraintTop_toBottomOf="@+id/targetColorView"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,25 +40,74 @@
                 android:layout_gravity="fill"/>
         <GridLayout  android:layout_columnWeight="2"
                      android:layout_rowWeight="2"
-                     android:layout_gravity="fill">
-            <Button android:id="@+id/red"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="RED"
-                    android:textColor="#00FFFF"
-                    android:background="#FF0000"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
-            <Button android:id="@+id/teal"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="TEAL"
-                    android:textColor="#F00"
-                    android:background="#0FF"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:layout_gravity="fill"/>
+                     android:layout_gravity="fill"
+                     android:columnCount="1">
+            <GridLayout  android:layout_columnWeight="1"
+                         android:layout_rowWeight="1"
+                         android:layout_gravity="fill">
+                <Button android:id="@+id/red"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="RED"
+                        android:textColor="#0FF"
+                        android:background="#F00"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_gravity="fill"/>
+                <Button android:id="@+id/cyan"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="CYAN"
+                        android:textColor="#F00"
+                        android:background="#0FF"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_gravity="fill"/>
+            </GridLayout>
+            <GridLayout  android:layout_columnWeight="1"
+                         android:layout_rowWeight="1"
+                         android:layout_gravity="fill">
+                <Button android:id="@+id/green"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="GREEN"
+                        android:textColor="#F0F"
+                        android:background="#0F0"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_gravity="fill"/>
+                <Button android:id="@+id/magenta"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="MAGENTA"
+                        android:textColor="#0F0"
+                        android:background="#F0F"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_gravity="fill"/>
+            </GridLayout>
+            <GridLayout  android:layout_columnWeight="1"
+                         android:layout_rowWeight="1"
+                         android:layout_gravity="fill">
+                <Button android:id="@+id/blue"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="BLUE"
+                        android:textColor="#FF0"
+                        android:background="#00F"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_gravity="fill"/>
+                <Button android:id="@+id/yellow"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="YELLOW"
+                        android:textColor="#00F"
+                        android:background="#FF0"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_gravity="fill"/>
+            </GridLayout>
         </GridLayout>
         <Button android:id="@+id/white"
                 android:layout_width="0dp"
